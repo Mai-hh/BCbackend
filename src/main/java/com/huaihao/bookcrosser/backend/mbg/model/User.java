@@ -13,8 +13,6 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // getter 和 setter 方法
-
     public Long getId() {
         return id;
     }

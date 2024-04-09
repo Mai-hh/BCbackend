@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huaihao.bookcrosser.backend.mbg.mapper.UserMapper">
+    <select id="selectAll" resultType="com.huaihao.bookcrosser.backend.mbg.model.User">
+        SELECT * FROM users
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Long" resultType="com.huaihao.bookcrosser.backend.mbg.model.User">
+        SELECT *
+        FROM users
+        WHERE id = #{id}
+    </select>
+
+    <insert id="save" parameterType="com.huaihao.bookcrosser.backend.mbg.model.User">
+        INSERT INTO users (username, password, email, avatar, bio, location, created_at, updated_at)
+        VALUES (#{username}, #{password}, #{email}, #{avatar}, #{bio}, #{location}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <update id="updateById" parameterType="com.huaihao.bookcrosser.backend.mbg.model.User">
+        UPDATE users
+        SET username   = #{username},
+            password   = #{password},
+            email      = #{email},
+            avatar     = #{avatar},
+            bio        = #{bio},
+            location   = #{location},
+            created_at = #{createdAt},
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM users
+        WHERE id = #{id}
+    </delete>
+</mapper>
