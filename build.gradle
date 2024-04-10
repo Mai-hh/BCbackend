@@ -22,12 +22,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 	implementation 'org.mybatis.generator:mybatis-generator-core:1.4.2'
-	implementation 'io.springfox.springfox-swagger2:3.0.0'
-	implementation 'io.springfox.springfox-swagger-ui:3.0.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
+	testImplementation 'junit:junit:4.13.1'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 }
 
 tasks.named('test') {
