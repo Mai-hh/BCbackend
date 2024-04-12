@@ -15,4 +15,12 @@ public interface UserService {
     boolean updateById(User user);
 
     boolean deleteById(@Param("id") Long id);
+
+    boolean deleteByEmail(@Param("email") String email);
+
+    Result register(User user);
+
+    Result login(User user);
+
+    User getByUsername(String username);
 }

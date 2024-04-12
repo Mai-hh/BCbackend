@@ -19,4 +19,10 @@ public interface UserMapper {
 
     boolean deleteById(@Param("id") Long id);
 
+    boolean deleteByEmail(@Param("email") String email);
+
+    User selectByUsername(@Param("username") String username);
+
+    User selectByEmail(@Param("email") String email);
+
 }
