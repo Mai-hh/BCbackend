@@ -3,17 +3,14 @@ package com.huaihao.bookcrosser.backend;
 import com.huaihao.bookcrosser.backend.mbg.mapper.UserMapper;
 import com.huaihao.bookcrosser.backend.mbg.model.User;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserMapperTest {
 
@@ -41,9 +38,6 @@ public class UserMapperTest {
         user.setPassword("password");
         user.setEmail("test@example.com");
         user.setAvatar("a");
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
-
         boolean result = userMapper.save(user);
         assertTrue(result);
     }
@@ -74,5 +68,4 @@ public class UserMapperTest {
         User deletedUser = userMapper.selectById(userId);
         assertNull(deletedUser);
     }
-
 }

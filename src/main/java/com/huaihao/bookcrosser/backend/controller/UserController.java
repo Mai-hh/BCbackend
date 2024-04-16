@@ -1,6 +1,5 @@
 package com.huaihao.bookcrosser.backend.controller;
 
-import com.huaihao.bookcrosser.backend.common.JWTUtil;
 import com.huaihao.bookcrosser.backend.mbg.model.User;
 import com.huaihao.bookcrosser.backend.service.Result;
 import com.huaihao.bookcrosser.backend.service.UserService;
