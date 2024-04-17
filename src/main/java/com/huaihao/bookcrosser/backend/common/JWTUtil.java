@@ -10,7 +10,7 @@ public class JWTUtil {
     // 秘钥,用于签名和解签 JWT
     private static final String SECRET_KEY = "your-secret-key";
     // JWT 的过期时间,单位为毫秒
-    private static final long EXPIRATION_TIME = 86400000; // 1 天
+    private static final long EXPIRATION_TIME = 30 * 24 * 60 * 60 * 1000L; // 30 天
 
     /**
      * 生成 JWT

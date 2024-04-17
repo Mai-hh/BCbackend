@@ -4,6 +4,8 @@ import com.huaihao.bookcrosser.backend.mbg.model.User;
 import com.huaihao.bookcrosser.backend.service.Result;
 import com.huaihao.bookcrosser.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -27,8 +29,28 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Result login(@RequestBody User user) {
-        return userService.login(user);
+    public ResponseEntity<Result> login(@RequestBody User user) {
+        Result result =  userService.login(user);
+        if (result.isSuccess()) {
+            ResponseEntity<Result> responseEntity = ResponseEntity.ok(result);
+            return responseEntity;
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        }
+    }
+
+    @GetMapping("/checkLogin")
+    public ResponseEntity<Result> checkLogin(@RequestHeader("Authorization") String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        Result result = userService.checkLogin(token);
+        if (result.isSuccess()) {
+            ResponseEntity<Result> responseEntity = ResponseEntity.ok(result);
+            return responseEntity;
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        }
     }
 
     @PostMapping("/update")

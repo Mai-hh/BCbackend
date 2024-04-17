@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result login(User user) {
         // 根据用户名查询用户
-        User dbUser = userMapper.selectByUsername(user.getUsername());
+        User dbUser = userMapper.selectByEmail(user.getEmail());
         if (dbUser == null) {
             return Result.failed("用户不存在");
         }
@@ -81,7 +81,19 @@ public class UserServiceImpl implements UserService {
         // 生成 JWT token
         String token = JWTUtil.generateToken(dbUser.getId());
         // 返回 token 给前端
-        return Result.success(token);
+        return Result.loginSuccess(token);
+    }
+
+    @Override
+    public Result checkLogin(String token) {
+        if (token != null && JWTUtil.validateToken(token)) {
+            Long userId = JWTUtil.parseToken(token);
+            User user = selectById(userId);
+            if (user != null) {
+                return Result.success(user);
+            }
+        }
+        return Result.failed("用户未登录");
     }
 
     @Override
