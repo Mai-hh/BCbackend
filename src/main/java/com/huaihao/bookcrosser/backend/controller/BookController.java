@@ -81,7 +81,7 @@ public class BookController {
     }
 
     @GetMapping("/searchByIsbn")
-    public List<Book> searchByIsbn(String isbn) {
+    public List<Book> searchByIsbn(@RequestParam(value = "isbn") String isbn) {
         return bookService.searchByIsbn(isbn);
     }
 
