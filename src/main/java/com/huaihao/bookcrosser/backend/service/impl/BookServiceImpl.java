@@ -56,4 +56,9 @@ public class BookServiceImpl implements BookService {
     public List<Book> searchByIsbn(String isbn) {
         return bookMapper.searchByIsbn(isbn);
     }
+
+    @Override
+    public List<Book> search(String title, String author, boolean exact) {
+        return bookMapper.search(title, author, exact);
+    }
 }

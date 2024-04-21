@@ -22,7 +22,7 @@ public interface UserService {
 
     Result login(User user);
 
-    Result checkLogin(String token);
+    Result checkLogin(Long id);
 
     User getByUsername(String username);
 }

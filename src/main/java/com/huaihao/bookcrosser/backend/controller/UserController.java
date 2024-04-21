@@ -40,14 +40,10 @@ public class UserController {
     }
 
     @GetMapping("/checkLogin")
-    public ResponseEntity<Result> checkLogin(@RequestHeader("Authorization") String token) {
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        }
-        Result result = userService.checkLogin(token);
+    public ResponseEntity<Result> checkLogin(@RequestAttribute("userId") Long userId) {
+        Result result = userService.checkLogin(userId);
         if (result.isSuccess()) {
-            ResponseEntity<Result> responseEntity = ResponseEntity.ok(result);
-            return responseEntity;
+            return ResponseEntity.ok(result);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         }

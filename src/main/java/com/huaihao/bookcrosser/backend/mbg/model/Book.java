@@ -1,6 +1,6 @@
 package com.huaihao.bookcrosser.backend.mbg.model;
 
-import lombok.Data;
+
 
 import java.time.LocalDateTime;
 
@@ -8,11 +8,21 @@ public class Book {
 
     private Long id;
 
+    private Long ownerId;
+
+    private Long uploaderId;
+
+    private double longitude;
+
+    private double latitude;
+
     private String title;
 
     private String author;
 
     private String isbn;
+
+    private String status;
 
     private String description;
 
@@ -86,4 +96,45 @@ public class Book {
         this.updatedAt = updatedAt;
     }
 
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Long getUploaderId() {
+        return uploaderId;
+    }
+
+    public void setUploaderId(Long uploaderId) {
+        this.uploaderId = uploaderId;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
+
+

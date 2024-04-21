@@ -29,8 +29,8 @@
     </select>
 
     <insert id="save" parameterType="com.huaihao.bookcrosser.backend.mbg.model.Book">
-        INSERT INTO books (title, author, isbn, cover_url, description, created_at, updated_at)
-        VALUES (#{title}, #{author}, #{isbn}, #{coverUrl}, #{description}, #{createdAt}, #{updatedAt})
+        INSERT INTO books (title, author, isbn, owner_id, uploader_id, description, cover_url, longitude, latitude, status, created_at, updated_at)
+        VALUES (#{title}, #{author}, #{isbn}, #{ownerId}, #{uploaderId}, #{description}, #{coverUrl}, #{longitude}, #{latitude}, #{status}, #{createdAt}, #{updatedAt})
     </insert>
 
     <update id="updateById" parameterType="com.huaihao.bookcrosser.backend.mbg.model.Book">
@@ -54,4 +54,34 @@
         DELETE FROM books
         WHERE isbn = #{isbn}
     </delete>
+    <delete id="deleteAll">
+        DELETE FROM books
+    </delete>
+
+    <select id="search" resultType="com.huaihao.bookcrosser.backend.mbg.model.Book">
+        SELECT *
+        FROM books
+        <where>
+            <if test="title != null and title != ''">
+                <choose>
+                    <when test="exact">
+                        AND title = #{title}
+                    </when>
+                    <otherwise>
+                        AND title LIKE CONCAT('%', #{title}, '%')
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="author != null and author != ''">
+                <choose>
+                    <when test="exact">
+                        AND author = #{author}
+                    </when>
+                    <otherwise>
+                        AND author LIKE CONCAT('%', #{author}, '%')
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
 </mapper>

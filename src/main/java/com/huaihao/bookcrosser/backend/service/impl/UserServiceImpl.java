@@ -85,14 +85,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result checkLogin(String token) {
-        if (token != null && JWTUtil.validateToken(token)) {
-            Long userId = JWTUtil.parseToken(token);
-            User user = selectById(userId);
-            if (user != null) {
-                return Result.success(user);
-            }
+    public Result checkLogin(Long userId) {
+        User user = selectById(userId);
+        if (user != null) {
+            return Result.success(user);
         }
+
         return Result.failed("用户未登录");
     }
 
