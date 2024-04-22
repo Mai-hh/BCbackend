@@ -8,6 +8,8 @@ public class UserProfile {
     private String email;
     private String avatar;
     private String bio;
+    private Double latitude;
+    private Double longitude;
     private List<Book> booksUploaded;
     private List<Book> booksBorrowed;
     private List<Book> booksInRequesting;
@@ -66,5 +68,21 @@ public class UserProfile {
 
     public void setBooksInRequesting(List<Book> booksInRequesting) {
         this.booksInRequesting = booksInRequesting;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

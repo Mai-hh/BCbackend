@@ -3,6 +3,7 @@ package com.huaihao.bookcrosser.backend.service;
 import com.huaihao.bookcrosser.backend.mbg.model.User;
 import com.huaihao.bookcrosser.backend.mbg.model.UserProfile;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -13,7 +14,10 @@ public interface UserService {
 
     boolean save(User user);
 
-    boolean updateById(User user);
+    boolean updateById(String username,
+                       String bio,
+                       Double latitude,
+                       Double longitude, Long userId);
 
     boolean deleteById(@Param("id") Long id);
 

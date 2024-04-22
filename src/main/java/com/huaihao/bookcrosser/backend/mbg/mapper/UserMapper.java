@@ -15,7 +15,11 @@ public interface UserMapper {
 
     boolean save(User user);
 
-    boolean updateById(User user);
+    boolean updateById(@Param("username") String username,
+                       @Param("bio") String bio,
+                       @Param("latitude") Double latitude,
+                       @Param("longitude") Double longitude,
+                       @Param("userId") Long userId);
 
     boolean deleteById(@Param("id") Long id);
 

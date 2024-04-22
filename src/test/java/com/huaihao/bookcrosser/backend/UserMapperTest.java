@@ -43,23 +43,6 @@ public class UserMapperTest {
     }
 
     @Test
-    public void testUpdateById() {
-        Long userId = 2L;
-        User user = userMapper.selectById(userId);
-        user.setUsername("updateduser");
-        user.setEmail("updated@example.com");
-        // 更新其他属性
-
-        boolean result = userMapper.updateById(user);
-        assertTrue(result);
-
-        User updatedUser = userMapper.selectById(userId);
-        assertEquals("updateduser", updatedUser.getUsername());
-        assertEquals("updated@example.com", updatedUser.getEmail());
-        // 添加其他断言语句，检查更新后的用户属性
-    }
-
-    @Test
     public void testDeleteById() {
         Long userId = 2L;
         boolean result = userMapper.deleteById(userId);

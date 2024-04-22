@@ -8,12 +8,14 @@ import com.huaihao.bookcrosser.backend.mbg.model.User;
 import com.huaihao.bookcrosser.backend.mbg.model.UserProfile;
 import com.huaihao.bookcrosser.backend.service.Result;
 import com.huaihao.bookcrosser.backend.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -41,9 +43,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateById(User user) {
-        return userMapper.updateById(user);
+    public boolean updateById(String username, String bio, Double latitude, Double longitude, Long userId) {
+        return userMapper.updateById(username, bio, latitude, longitude, userId);
     }
+
 
     @Override
     public boolean deleteById(Long id) {
@@ -109,13 +112,14 @@ public class UserServiceImpl implements UserService {
     public UserProfile loadUserProfile(Long id) {
         User user = selectById(id);
 
-
         if (user != null) {
             List<Book> booksUploaded = bookMapper.loadBooksByUploaderId(user.getId());
             List<Book> booksBorrowed = bookMapper.loadBooksByOwnerId(user.getId());
             UserProfile userProfile = new UserProfile();
             userProfile.setUsername(user.getUsername());
             userProfile.setEmail(user.getEmail());
+            userProfile.setLatitude(user.getLatitude());
+            userProfile.setLongitude(user.getLongitude());
             userProfile.setAvatar(user.getAvatar());
             userProfile.setBio(user.getBio());
             userProfile.setBooksUploaded(booksUploaded);

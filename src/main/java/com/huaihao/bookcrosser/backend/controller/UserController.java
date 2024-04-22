@@ -31,7 +31,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Result> login(@RequestBody User user) {
-        Result result =  userService.login(user);
+        Result result = userService.login(user);
         if (result.isSuccess()) {
             return ResponseEntity.ok(result);
         } else {
@@ -60,9 +60,16 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public boolean update(User user) {
-        user.setUpdatedAt(LocalDateTime.now());
-        return userService.updateById(user);
+    public boolean update(
+            @RequestParam("username") String username,
+            @RequestParam("bio") String bio,
+            @RequestParam("latitude") Double latitude,
+            @RequestParam("longitude") Double longitude,
+            @RequestAttribute("userId") Long userId
+    ) {
+        System.out.println("UserController update: " + username);
+        System.out.println("UserController update: " + userId);
+        return userService.updateById(username, bio, latitude, longitude, userId);
     }
 
     @GetMapping("/selectAll")
