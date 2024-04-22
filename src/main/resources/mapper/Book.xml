@@ -37,6 +37,7 @@
                 #{latitude}, #{status}, #{createdAt}, #{updatedAt})
     </insert>
 
+
     <update id="updateById" parameterType="com.huaihao.bookcrosser.backend.mbg.model.Book">
         UPDATE books
         SET title      = #{title},

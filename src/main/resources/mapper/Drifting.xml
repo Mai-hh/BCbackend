@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huaihao.bookcrosser.backend.mbg.mapper.DriftingMapper">
+
+    <insert id="request">
+        INSERT INTO drifting_request (book_id, requester_id, uploader_id, status, created_at, updated_at)
+        VALUES (#{bookId}, #{requesterId}, #{uploader_id}, #{status}, #{createdAt}, #{updatedAt})
+    </insert>
+</mapper>

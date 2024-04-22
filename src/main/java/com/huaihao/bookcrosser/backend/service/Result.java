@@ -52,6 +52,10 @@ public class Result {
         return new Result(400, message, null, null);
     }
 
+    public static Result failed(int code, String message) {
+        return new Result(code, message, null, null);
+    }
+
     public boolean isSuccess() {
         return this.code == ResultCode.OK.value();
     }

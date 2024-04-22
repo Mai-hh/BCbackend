@@ -60,6 +60,7 @@ public class BookController {
         }
     }
 
+
     @PostMapping("/update")
     public boolean update(Book book) {
         return bookService.updateById(book);
