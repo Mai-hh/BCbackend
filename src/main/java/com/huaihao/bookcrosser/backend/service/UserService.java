@@ -1,6 +1,7 @@
 package com.huaihao.bookcrosser.backend.service;
 
 import com.huaihao.bookcrosser.backend.mbg.model.User;
+import com.huaihao.bookcrosser.backend.mbg.model.UserProfile;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -25,4 +26,6 @@ public interface UserService {
     Result checkLogin(Long id);
 
     User getByUsername(String username);
+
+    UserProfile loadUserProfile(Long id);
 }

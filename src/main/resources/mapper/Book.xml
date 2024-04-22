@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.huaihao.bookcrosser.backend.mbg.mapper.BookMapper">
     <select id="selectAll" resultType="com.huaihao.bookcrosser.backend.mbg.model.Book">
-        SELECT * FROM books
+        SELECT *
+        FROM books
     </select>
 
     <select id="selectById" parameterType="java.lang.Long" resultType="com.huaihao.bookcrosser.backend.mbg.model.Book">
@@ -10,6 +11,7 @@
         FROM books
         WHERE id = #{id}
     </select>
+
     <select id="searchByTitle" resultType="com.huaihao.bookcrosser.backend.mbg.model.Book">
         SELECT *
         FROM books
@@ -29,8 +31,10 @@
     </select>
 
     <insert id="save" parameterType="com.huaihao.bookcrosser.backend.mbg.model.Book">
-        INSERT INTO books (title, author, isbn, owner_id, uploader_id, description, cover_url, longitude, latitude, status, created_at, updated_at)
-        VALUES (#{title}, #{author}, #{isbn}, #{ownerId}, #{uploaderId}, #{description}, #{coverUrl}, #{longitude}, #{latitude}, #{status}, #{createdAt}, #{updatedAt})
+        INSERT INTO books (title, author, isbn, owner_id, uploader_id, description, cover_url, longitude, latitude,
+                           status, created_at, updated_at)
+        VALUES (#{title}, #{author}, #{isbn}, #{ownerId}, #{uploaderId}, #{description}, #{coverUrl}, #{longitude},
+                #{latitude}, #{status}, #{createdAt}, #{updatedAt})
     </insert>
 
     <update id="updateById" parameterType="com.huaihao.bookcrosser.backend.mbg.model.Book">
@@ -46,16 +50,20 @@
     </update>
 
     <delete id="deleteById" parameterType="java.lang.Long">
-        DELETE FROM books
+        DELETE
+        FROM books
         WHERE id = #{id}
     </delete>
 
     <delete id="deleteByIsbn">
-        DELETE FROM books
+        DELETE
+        FROM books
         WHERE isbn = #{isbn}
     </delete>
+
     <delete id="deleteAll">
-        DELETE FROM books
+        DELETE
+        FROM books
     </delete>
 
     <select id="search" resultType="com.huaihao.bookcrosser.backend.mbg.model.Book">
@@ -83,5 +91,17 @@
                 </choose>
             </if>
         </where>
+    </select>
+
+    <select id="loadBooksByOwnerId" resultType="com.huaihao.bookcrosser.backend.mbg.model.Book">
+        SELECT *
+        FROM books
+        WHERE owner_id = #{ownerId}
+    </select>
+
+    <select id="loadBooksByUploaderId" resultType="com.huaihao.bookcrosser.backend.mbg.model.Book">
+        SELECT *
+        FROM books
+        WHERE uploader_id = #{uploaderId}
     </select>
 </mapper>

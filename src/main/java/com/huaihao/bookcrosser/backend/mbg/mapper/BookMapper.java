@@ -24,6 +24,10 @@ public interface BookMapper {
 
     List<Book> searchByIsbn(@Param("isbn") String isbn);
 
+    List<Book> loadBooksByOwnerId(@Param("ownerId") Long ownerId);
+
+    List<Book> loadBooksByUploaderId(@Param("uploaderId") Long uploaderId);
+
     List<Book> search(@Param("title") String title, @Param("author") String author, @Param("exact") boolean exact);
 
     boolean deleteAll();

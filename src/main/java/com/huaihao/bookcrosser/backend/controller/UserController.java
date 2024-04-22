@@ -1,6 +1,7 @@
 package com.huaihao.bookcrosser.backend.controller;
 
 import com.huaihao.bookcrosser.backend.mbg.model.User;
+import com.huaihao.bookcrosser.backend.mbg.model.UserProfile;
 import com.huaihao.bookcrosser.backend.service.Result;
 import com.huaihao.bookcrosser.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,7 @@ public class UserController {
     public ResponseEntity<Result> login(@RequestBody User user) {
         Result result =  userService.login(user);
         if (result.isSuccess()) {
-            ResponseEntity<Result> responseEntity = ResponseEntity.ok(result);
-            return responseEntity;
+            return ResponseEntity.ok(result);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         }
@@ -46,6 +46,16 @@ public class UserController {
             return ResponseEntity.ok(result);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        }
+    }
+
+    @GetMapping("/loadUserProfile")
+    public ResponseEntity<UserProfile> loadUserProfile(@RequestAttribute("userId") Long userId) {
+        UserProfile profile = userService.loadUserProfile(userId);
+        if (profile != null) {
+            return ResponseEntity.ok(profile);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 
