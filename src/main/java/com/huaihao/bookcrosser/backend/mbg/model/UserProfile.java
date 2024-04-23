@@ -4,6 +4,7 @@ package com.huaihao.bookcrosser.backend.mbg.model;
 import java.util.List;
 
 public class UserProfile {
+    private Long id;
     private String username;
     private String email;
     private String avatar;
@@ -13,6 +14,7 @@ public class UserProfile {
     private List<Book> booksUploaded;
     private List<Book> booksBorrowed;
     private List<Book> booksInRequesting;
+    private List<Book> booksUncommented;
 
     public String getUsername() {
         return username;
@@ -84,5 +86,21 @@ public class UserProfile {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public List<Book> getBooksUncommented() {
+        return booksUncommented;
+    }
+
+    public void setBooksUncommented(List<Book> booksUncommented) {
+        this.booksUncommented = booksUncommented;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

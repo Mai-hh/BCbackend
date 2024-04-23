@@ -14,7 +14,7 @@ public interface BookMapper {
 
     boolean save(Book book);
 
-    boolean updateById(Book book);
+    boolean update(Book book);
 
     boolean deleteById(@Param("id") Long id);
 

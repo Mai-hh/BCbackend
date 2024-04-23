@@ -38,12 +38,14 @@
     </insert>
 
 
-    <update id="updateById" parameterType="com.huaihao.bookcrosser.backend.mbg.model.Book">
+    <update id="update" parameterType="com.huaihao.bookcrosser.backend.mbg.model.Book">
         UPDATE books
         SET title      = #{title},
             author     = #{author},
+            owner_id   = #{ownerId},
+            uploader_id= #{uploaderId},
             isbn       = #{isbn},
-            cover      = #{cover},
+            cover_url      = #{coverUrl},
             description= #{description},
             created_at = #{createdAt},
             updated_at = #{updatedAt}

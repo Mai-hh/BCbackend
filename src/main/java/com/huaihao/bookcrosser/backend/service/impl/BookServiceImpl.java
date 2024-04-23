@@ -2,15 +2,12 @@ package com.huaihao.bookcrosser.backend.service.impl;
 
 import com.huaihao.bookcrosser.backend.mbg.mapper.BookMapper;
 import com.huaihao.bookcrosser.backend.mbg.model.Book;
-import com.huaihao.bookcrosser.backend.mbg.model.RequestStatus;
 import com.huaihao.bookcrosser.backend.service.BookService;
-import com.huaihao.bookcrosser.backend.service.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -37,7 +34,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public boolean updateById(Book book) {
-        return bookMapper.updateById(book);
+        return bookMapper.update(book);
     }
 
     @Override

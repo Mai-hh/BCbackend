@@ -1,13 +1,18 @@
 package com.huaihao.bookcrosser.backend.controller;
 
+import com.huaihao.bookcrosser.backend.mbg.model.Book;
+import com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord;
 import com.huaihao.bookcrosser.backend.mbg.model.DriftingRequest;
+import com.huaihao.bookcrosser.backend.mbg.model.User;
 import com.huaihao.bookcrosser.backend.service.BookService;
 import com.huaihao.bookcrosser.backend.service.DriftingService;
 import com.huaihao.bookcrosser.backend.service.Result;
+import com.huaihao.bookcrosser.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,6 +21,12 @@ public class DriftingController {
 
     @Autowired
     private DriftingService driftingService;
+
+    @Autowired
+    private BookService bookService;
+
+    @Autowired
+    private UserService userService;
 
     // 求漂
     @PostMapping("/request")
@@ -33,20 +44,72 @@ public class DriftingController {
 
     // 查询我的求漂
     @GetMapping("/selectMyRequest")
-    public List<DriftingRequest> selectMyRequest(@RequestAttribute("userId") Long requesterId) {
+    public List<DriftingRecord> selectMyRequest(@RequestAttribute("userId") Long requesterId) {
         return driftingService.selectByRequesterId(requesterId);
+    }
+
+    // 查询我的求漂
+    @GetMapping("/selectMyBookRequests")
+    public List<Book> selectMyBookRequest(@RequestAttribute("userId") Long requesterId) {
+        List<DriftingRecord> requests = driftingService.selectByRequesterId(requesterId);
+        List<Book> result = new ArrayList<>();
+        for (DriftingRecord request : requests) {
+            Long bookId = request.getBookId();
+            result.add(bookService.selectById(bookId));
+        }
+        return result;
     }
 
 
     // 查询给我的请求
     @GetMapping("/selectDriftingToMe")
     public List<DriftingRequest> selectDriftingToMe(@RequestAttribute("userId") Long ownerId) {
-        return driftingService.selectByOwnerId(ownerId);
+        List<DriftingRecord> records = driftingService.selectByOwnerId(ownerId);
+        List<DriftingRequest> driftingRequest = new ArrayList<>();
+        for (DriftingRecord record : records) {
+            DriftingRequest request = new DriftingRequest();
+            request.setId(record.getId());
+
+            User requester = userService.selectById(record.getRequesterId());
+            request.setRequester(requester);
+
+            Book book = bookService.selectById(record.getBookId());
+            request.setBook(book);
+
+            // 如果请求者和拥有者是同一个人，说明漂流请求已经被接受
+            if (record.getOwnerId().equals(record.getRequesterId())) {
+                continue;
+            }
+
+            driftingRequest.add(request);
+        }
+
+        return driftingRequest;
     }
 
-    // 接受请求
-    // 起漂
+    @PostMapping("/drift")
+    public ResponseEntity<Result> drift(
+            @RequestParam("requestId") Long requestId,
+            @RequestAttribute("userId") Long ownerId
+    ) {
+        Result result = driftingService.drift(requestId, ownerId);
+        if (result.isSuccess()) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
 
-    // 拒绝请求
-    // 释放图书
+    @PostMapping("/reject")
+    public ResponseEntity<Result> reject(
+            @RequestParam("requestId") Long requestId,
+            @RequestAttribute("userId") Long ownerId
+    ) {
+        Result result = driftingService.reject(requestId, ownerId);
+        if (result.isSuccess()) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
 }

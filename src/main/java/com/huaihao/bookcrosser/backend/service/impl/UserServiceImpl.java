@@ -2,8 +2,10 @@ package com.huaihao.bookcrosser.backend.service.impl;
 
 import com.huaihao.bookcrosser.backend.common.JWTUtil;
 import com.huaihao.bookcrosser.backend.mbg.mapper.BookMapper;
+import com.huaihao.bookcrosser.backend.mbg.mapper.DriftingMapper;
 import com.huaihao.bookcrosser.backend.mbg.mapper.UserMapper;
 import com.huaihao.bookcrosser.backend.mbg.model.Book;
+import com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord;
 import com.huaihao.bookcrosser.backend.mbg.model.User;
 import com.huaihao.bookcrosser.backend.mbg.model.UserProfile;
 import com.huaihao.bookcrosser.backend.service.Result;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -24,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BookMapper bookMapper;
+
+    @Autowired
+    DriftingMapper driftingMapper;
 
     @Override
     public List<User> selectAll() {
@@ -115,8 +121,17 @@ public class UserServiceImpl implements UserService {
 
         if (user != null) {
             List<Book> booksUploaded = bookMapper.loadBooksByUploaderId(user.getId());
+
+            List<DriftingRecord> requests = driftingMapper.selectByRequesterId(user.getId());
+            List<Book> booksInRequesting = new ArrayList<>();
+            for (DriftingRecord request : requests) {
+                Long bookId = request.getBookId();
+                booksInRequesting.add(bookMapper.selectById(bookId));
+            }
+
             List<Book> booksBorrowed = bookMapper.loadBooksByOwnerId(user.getId());
             UserProfile userProfile = new UserProfile();
+            userProfile.setId(user.getId());
             userProfile.setUsername(user.getUsername());
             userProfile.setEmail(user.getEmail());
             userProfile.setLatitude(user.getLatitude());
@@ -125,6 +140,7 @@ public class UserServiceImpl implements UserService {
             userProfile.setBio(user.getBio());
             userProfile.setBooksUploaded(booksUploaded);
             userProfile.setBooksBorrowed(booksBorrowed);
+            userProfile.setBooksInRequesting(booksInRequesting);
             return userProfile;
         } else {
             return null;

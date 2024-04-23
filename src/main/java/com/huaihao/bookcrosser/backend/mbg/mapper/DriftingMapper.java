@@ -1,6 +1,6 @@
 package com.huaihao.bookcrosser.backend.mbg.mapper;
 
-import com.huaihao.bookcrosser.backend.mbg.model.DriftingRequest;
+import com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +18,15 @@ public interface DriftingMapper {
             @Param("updatedAt") java.time.LocalDateTime updatedAt
     );
 
-    List<DriftingRequest> selectByRequesterId(@Param("requesterId") Long requesterId);
+    DriftingRecord selectDriftingRequestById(@Param("id") Long id);
 
-    List<DriftingRequest> selectByOwnerId(@Param("ownerId") Long ownerId);
+    List<DriftingRecord> selectByRequesterId(@Param("requesterId") Long requesterId);
+
+    List<DriftingRecord> selectByOwnerId(@Param("ownerId") Long ownerId);
+
+    boolean update(DriftingRecord record);
+
+    boolean deleteById(@Param("id") Long id);
+
+    DriftingRecord selectByBookRequesterId(@Param("bookId") Long bookId, @Param("requesterId") Long requesterId);
 }

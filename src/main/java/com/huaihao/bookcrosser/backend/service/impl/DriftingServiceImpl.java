@@ -3,7 +3,7 @@ package com.huaihao.bookcrosser.backend.service.impl;
 import com.huaihao.bookcrosser.backend.mbg.mapper.BookMapper;
 import com.huaihao.bookcrosser.backend.mbg.mapper.DriftingMapper;
 import com.huaihao.bookcrosser.backend.mbg.model.Book;
-import com.huaihao.bookcrosser.backend.mbg.model.DriftingRequest;
+import com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord;
 import com.huaihao.bookcrosser.backend.mbg.model.RequestStatus;
 import com.huaihao.bookcrosser.backend.service.DriftingService;
 import com.huaihao.bookcrosser.backend.service.Result;
@@ -33,26 +33,67 @@ public class DriftingServiceImpl implements DriftingService {
             return Result.failed(400, "不能请求自己的图书");
         }
 
-        boolean val = driftingMapper.request(
-                bookId,
-                userId,
-                book.getOwnerId(),
-                book.getUploaderId(),
-                RequestStatus.REQUESTING.getStatusString(),
-                LocalDateTime.now(),
-                LocalDateTime.now()
-        );
-
-        return Result.success("求漂成功", val);
+        try {
+            boolean val = driftingMapper.request(
+                    bookId,
+                    userId,
+                    book.getOwnerId(),
+                    book.getUploaderId(),
+                    RequestStatus.REQUESTING.getStatusString(),
+                    LocalDateTime.now(),
+                    LocalDateTime.now()
+            );
+            return Result.success("求漂成功", val);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.failed(500, "服务器错误");
+        }
     }
 
     @Override
-    public List<DriftingRequest> selectByRequesterId(Long requesterId) {
+    public List<DriftingRecord> selectByRequesterId(Long requesterId) {
         return driftingMapper.selectByRequesterId(requesterId);
     }
 
     @Override
-    public List<DriftingRequest> selectByOwnerId(Long ownerId) {
+    public List<DriftingRecord> selectByOwnerId(Long ownerId) {
         return driftingMapper.selectByOwnerId(ownerId);
+    }
+
+    @Override
+    public Result drift(Long requestId, Long ownerId) {
+        DriftingRecord driftingRecord = driftingMapper.selectDriftingRequestById(requestId);
+        Book book = bookMapper.selectById(driftingRecord.getBookId());
+        book.setOwnerId(driftingRecord.getRequesterId());
+        book.setUpdatedAt(LocalDateTime.now());
+        if (!bookMapper.update(book)) {
+            return Result.failed(500, "服务器错误");
+        }
+
+        driftingRecord.setStatus(RequestStatus.DRIFTING.getStatusString());
+        driftingRecord.setOwnerId(driftingRecord.getRequesterId());
+        driftingRecord.setUpdatedAt(LocalDateTime.now().toString());
+
+        if (driftingMapper.update(driftingRecord)) {
+            return Result.success("起漂成功");
+        }
+
+        return Result.failed(500, "服务器错误");
+
+    }
+
+    @Override
+    public Result reject(Long requestId, Long ownerId) {
+        DriftingRecord driftingRecord = driftingMapper.selectDriftingRequestById(requestId);
+        Book book = bookMapper.selectById(driftingRecord.getBookId());
+        if (!Objects.equals(book.getUploaderId(), ownerId)) {
+            return Result.failed(403, "非书主无权限拒绝请求");
+        }
+
+        if (driftingMapper.deleteById(requestId)) {
+            return Result.success("拒绝请求成功");
+        }
+
+        return Result.failed(500, "服务器错误");
     }
 }
