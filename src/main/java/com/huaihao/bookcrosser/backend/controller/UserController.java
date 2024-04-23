@@ -25,8 +25,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Result register(@RequestBody User user) {
-        return userService.register(user);
+    public ResponseEntity<Result> register(@RequestBody User user) {
+        Result result = userService.register(user);
+        if (result.isSuccess()) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        }
     }
 
     @PostMapping("/login")

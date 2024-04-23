@@ -3,7 +3,13 @@
 <mapper namespace="com.huaihao.bookcrosser.backend.mbg.mapper.DriftingMapper">
 
     <insert id="request">
-        INSERT INTO drifting_request (book_id, requester_id, uploader_id, status, created_at, updated_at)
-        VALUES (#{bookId}, #{requesterId}, #{uploader_id}, #{status}, #{createdAt}, #{updatedAt})
+        INSERT INTO drifting_request (book_id, requester_id, owner_id, uploader_id, status, created_at, updated_at)
+        VALUES (#{bookId}, #{requesterId}, #{ownerId}, #{uploaderId}, #{status}, #{createdAt}, #{updatedAt})
     </insert>
+    <select id="selectByRequesterId" resultType="com.huaihao.bookcrosser.backend.mbg.model.DriftingRequest">
+        SELECT * FROM drifting_request WHERE requester_id = #{requesterId}
+    </select>
+    <select id="selectByOwnerId" resultType="com.huaihao.bookcrosser.backend.mbg.model.DriftingRequest">
+        SELECT * FROM drifting_request WHERE owner_id = #{ownerId}
+    </select>
 </mapper>

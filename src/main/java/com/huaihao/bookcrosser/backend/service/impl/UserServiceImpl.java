@@ -70,7 +70,8 @@ public class UserServiceImpl implements UserService {
         }
         // 保存用户信息到数据库
         if (save(user)) {
-            return Result.success("注册成功");
+            String token = JWTUtil.generateToken(userMapper.selectByEmail(user.getEmail()).getId());
+            return Result.loginSuccess(token);
         } else {
             return Result.failed("注册失败");
         }
