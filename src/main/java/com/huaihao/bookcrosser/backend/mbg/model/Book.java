@@ -10,6 +10,8 @@ public class Book {
 
     private Long ownerId;
 
+    private String ownerUsername;
+
     private Long uploaderId;
 
     private double longitude;
@@ -31,6 +33,14 @@ public class Book {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public String getOwnerUsername() {
+        return ownerUsername;
+    }
+
+    public void setOwnerUsername(String ownerUsername) {
+        this.ownerUsername = ownerUsername;
+    }
 
     public Long getId() {
         return id;

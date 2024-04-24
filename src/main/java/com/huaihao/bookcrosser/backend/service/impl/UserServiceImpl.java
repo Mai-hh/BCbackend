@@ -121,6 +121,9 @@ public class UserServiceImpl implements UserService {
 
         if (user != null) {
             List<Book> booksUploaded = bookMapper.loadBooksByUploaderId(user.getId());
+            booksUploaded.forEach(book -> {
+                book.setOwnerUsername(userMapper.selectById(book.getOwnerId()).getUsername());
+            });
 
             List<DriftingRecord> requests = driftingMapper.selectByRequesterId(user.getId());
             List<Book> booksInRequesting = new ArrayList<>();
@@ -133,6 +136,9 @@ public class UserServiceImpl implements UserService {
             }
 
             List<Book> booksBorrowed = bookMapper.loadBooksByOwnerId(user.getId());
+            booksBorrowed.forEach(book -> {
+                book.setOwnerUsername(userMapper.selectById(book.getOwnerId()).getUsername());
+            });
 
             UserProfile userProfile = new UserProfile();
             userProfile.setId(user.getId());
