@@ -5,7 +5,8 @@ public enum RequestStatus {
     DRIFTING("drifting"),
     RECEIVED("received"),
     UNCOMMENTED("uncommented"),
-    COMMENTED("commented");
+    COMMENTED("commented"),
+    FINISHED("finished");
 
     private final String statusString;
 

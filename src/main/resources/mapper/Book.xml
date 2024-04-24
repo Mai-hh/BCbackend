@@ -45,9 +45,18 @@
             owner_id   = #{ownerId},
             uploader_id= #{uploaderId},
             isbn       = #{isbn},
-            cover_url      = #{coverUrl},
+            cover_url  = #{coverUrl},
             description= #{description},
             created_at = #{createdAt},
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateCommon" parameterType="com.huaihao.bookcrosser.backend.mbg.model.Book">
+        UPDATE books
+        SET title      = #{title},
+            author     = #{author},
+            description= #{description},
             updated_at = #{updatedAt}
         WHERE id = #{id}
     </update>

@@ -23,23 +23,23 @@ public class DriftingServiceImpl implements DriftingService {
     private BookMapper bookMapper;
 
     @Override
-    public Result request(Long bookId, Long userId) {
+    public Result request(Long bookId, Long requesterId, RequestStatus status) {
         Book book = bookMapper.selectById(bookId);
         if (book == null) {
             return Result.failed(404, "请求图书不存在");
         }
 
-        if (Objects.equals(book.getOwnerId(), userId)) {
-            return Result.failed(400, "不能请求自己的图书");
+        if (Objects.equals(book.getOwnerId(), requesterId)) {
+            return Result.failed(400, "不能请求拥有的图书");
         }
 
         try {
             boolean val = driftingMapper.request(
                     bookId,
-                    userId,
+                    requesterId,
                     book.getOwnerId(),
                     book.getUploaderId(),
-                    RequestStatus.REQUESTING.getStatusString(),
+                    status.getStatusString(),
                     LocalDateTime.now(),
                     LocalDateTime.now()
             );
@@ -74,12 +74,24 @@ public class DriftingServiceImpl implements DriftingService {
         driftingRecord.setOwnerId(driftingRecord.getRequesterId());
         driftingRecord.setUpdatedAt(LocalDateTime.now().toString());
 
-        if (driftingMapper.update(driftingRecord)) {
+        // 更新 / 删除？
+        if (driftingMapper.deleteById(requestId)) {
             return Result.success("起漂成功");
         }
 
         return Result.failed(500, "服务器错误");
 
+    }
+
+    // 收漂：删除book相关的driftingRecord, 新增一个driftingRecord的requester为自己，设置状态为finished
+    @Override
+    public Result finish(Long bookId, Long uploaderId) {
+        boolean deleteComplete = driftingMapper.deleteByBookUploaderId(bookId, uploaderId);
+        if (!deleteComplete) {
+            return Result.failed(500, "服务器错误");
+        }
+        System.out.println("delete complete");
+        return request(bookId, uploaderId, RequestStatus.FINISHED);
     }
 
     @Override

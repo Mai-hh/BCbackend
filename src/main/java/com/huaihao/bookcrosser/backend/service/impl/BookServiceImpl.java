@@ -3,6 +3,7 @@ package com.huaihao.bookcrosser.backend.service.impl;
 import com.huaihao.bookcrosser.backend.mbg.mapper.BookMapper;
 import com.huaihao.bookcrosser.backend.mbg.model.Book;
 import com.huaihao.bookcrosser.backend.service.BookService;
+import com.huaihao.bookcrosser.backend.service.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,21 @@ public class BookServiceImpl implements BookService {
     @Override
     public boolean updateById(Book book) {
         return bookMapper.update(book);
+    }
+
+    @Override
+    public Result updateCommon(
+            Long id,
+            String title,
+            String author,
+            String description,
+            LocalDateTime updatedAt
+    ) {
+        if (bookMapper.updateCommon(id, title, author, description, updatedAt)) {
+            return Result.success();
+        } else {
+            return Result.failed();
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -60,10 +61,24 @@ public class BookController {
         }
     }
 
-
     @PostMapping("/update")
-    public boolean update(Book book) {
-        return bookService.updateById(book);
+    public ResponseEntity<Result> update(
+            @RequestParam("bookId") Long id,
+            @RequestParam(value = "title") String title,
+            @RequestParam(value = "author") String author,
+            @RequestParam(value = "description") String description
+    ) {
+        if (bookService.updateCommon(
+                id,
+                title,
+                author,
+                description,
+                LocalDateTime.now()
+        ).isSuccess()) {
+            return ResponseEntity.ok(Result.success("更新成功"));
+        } else {
+            return ResponseEntity.badRequest().body(Result.failed("更新失败"));
+        }
     }
 
     @DeleteMapping("/deleteById/{id}")

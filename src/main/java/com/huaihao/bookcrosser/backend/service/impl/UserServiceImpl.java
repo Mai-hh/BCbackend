@@ -116,8 +116,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfile loadUserProfile(Long id) {
-        User user = selectById(id);
+    public UserProfile loadUserProfile(Long userId) {
+        User user = selectById(userId);
 
         if (user != null) {
             List<Book> booksUploaded = bookMapper.loadBooksByUploaderId(user.getId());
@@ -125,11 +125,15 @@ public class UserServiceImpl implements UserService {
             List<DriftingRecord> requests = driftingMapper.selectByRequesterId(user.getId());
             List<Book> booksInRequesting = new ArrayList<>();
             for (DriftingRecord request : requests) {
+                if (request.getOwnerId().equals(userId)) {
+                    continue;
+                }
                 Long bookId = request.getBookId();
                 booksInRequesting.add(bookMapper.selectById(bookId));
             }
 
             List<Book> booksBorrowed = bookMapper.loadBooksByOwnerId(user.getId());
+
             UserProfile userProfile = new UserProfile();
             userProfile.setId(user.getId());
             userProfile.setUsername(user.getUsername());

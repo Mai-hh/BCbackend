@@ -4,6 +4,7 @@ import com.huaihao.bookcrosser.backend.mbg.model.Book;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -15,6 +16,14 @@ public interface BookMapper {
     boolean save(Book book);
 
     boolean update(Book book);
+
+    boolean updateCommon(
+            @Param("id") Long id,
+            @Param("title") String title,
+            @Param("author") String author,
+            @Param("description") String description,
+            @Param("updatedAt") LocalDateTime updatedAt
+    );
 
     boolean deleteById(@Param("id") Long id);
 

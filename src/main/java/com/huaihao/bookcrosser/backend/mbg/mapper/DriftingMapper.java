@@ -29,4 +29,10 @@ public interface DriftingMapper {
     boolean deleteById(@Param("id") Long id);
 
     DriftingRecord selectByBookRequesterId(@Param("bookId") Long bookId, @Param("requesterId") Long requesterId);
+
+    List<DriftingRecord> selectByBookOwnerId(@Param("bookId") Long bookId, @Param("ownerId") Long ownerId);
+
+    List<DriftingRecord> selectByBookUploaderId(@Param("bookId") Long bookId, @Param("uploaderId") Long uploaderId);
+
+    boolean deleteByBookUploaderId(@Param("bookId") Long bookId, @Param("uploaderId") Long uploaderId);
 }

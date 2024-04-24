@@ -1,9 +1,6 @@
 package com.huaihao.bookcrosser.backend.controller;
 
-import com.huaihao.bookcrosser.backend.mbg.model.Book;
-import com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord;
-import com.huaihao.bookcrosser.backend.mbg.model.DriftingRequest;
-import com.huaihao.bookcrosser.backend.mbg.model.User;
+import com.huaihao.bookcrosser.backend.mbg.model.*;
 import com.huaihao.bookcrosser.backend.service.BookService;
 import com.huaihao.bookcrosser.backend.service.DriftingService;
 import com.huaihao.bookcrosser.backend.service.Result;
@@ -34,7 +31,7 @@ public class DriftingController {
             @RequestParam("bookId") Long bookId,
             @RequestAttribute("userId") Long requesterId
     ) {
-        Result result = driftingService.request(bookId, requesterId);
+        Result result = driftingService.request(bookId, requesterId, RequestStatus.REQUESTING);
         if (result.isSuccess()) {
             return ResponseEntity.ok(result);
         } else {
@@ -106,6 +103,20 @@ public class DriftingController {
             @RequestAttribute("userId") Long ownerId
     ) {
         Result result = driftingService.reject(requestId, ownerId);
+        if (result.isSuccess()) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+
+    // uploader收漂，会将requesterId设置为uploaderId，并且修改状态为Finished
+    @PostMapping("/finish")
+    public ResponseEntity<Result> finish(
+            @RequestParam("bookId") Long bookId,
+            @RequestAttribute("userId") Long uploaderId
+    ) {
+        Result result = driftingService.finish(bookId, uploaderId);
         if (result.isSuccess()) {
             return ResponseEntity.ok(result);
         } else {

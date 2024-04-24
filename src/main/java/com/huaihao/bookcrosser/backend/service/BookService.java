@@ -3,6 +3,7 @@ package com.huaihao.bookcrosser.backend.service;
 import com.huaihao.bookcrosser.backend.mbg.model.Book;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookService {
@@ -13,6 +14,14 @@ public interface BookService {
     boolean save(Book book);
 
     boolean updateById(Book book);
+
+    Result updateCommon(
+            @Param("id")    Long id,
+            @Param("title") String title,
+            @Param("author")  String author,
+            @Param("description")   String description,
+            @Param("updatedAt") LocalDateTime updatedAt
+    );
 
     boolean deleteById(@Param("id") Long id);
 

@@ -6,33 +6,65 @@
         INSERT INTO drifting_request (book_id, requester_id, owner_id, uploader_id, status, created_at, updated_at)
         VALUES (#{bookId}, #{requesterId}, #{ownerId}, #{uploaderId}, #{status}, #{createdAt}, #{updatedAt})
     </insert>
+
     <update id="update" parameterType="com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord">
         UPDATE drifting_request
-        SET book_id = #{bookId},
+        SET book_id      = #{bookId},
             requester_id = #{requesterId},
-            owner_id = #{ownerId},
-            status = #{status},
-            updated_at = #{updatedAt}
+            owner_id     = #{ownerId},
+            status       = #{status},
+            updated_at   = #{updatedAt}
         WHERE id = #{id}
     </update>
+
     <delete id="deleteById">
-        DELETE FROM drifting_request
+        DELETE
+        FROM drifting_request
         WHERE id = #{id}
     </delete>
 
+    <delete id="deleteByBookUploaderId">
+        DELETE
+        FROM drifting_request
+        WHERE book_id = #{bookId}
+          AND uploader_id = #{uploaderId}
+    </delete>
+
     <select id="selectByRequesterId" resultType="com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord">
-        SELECT * FROM drifting_request WHERE requester_id = #{requesterId}
+        SELECT *
+        FROM drifting_request
+        WHERE requester_id = #{requesterId}
     </select>
 
     <select id="selectByOwnerId" resultType="com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord">
-        SELECT * FROM drifting_request WHERE owner_id = #{ownerId}
+        SELECT *
+        FROM drifting_request
+        WHERE owner_id = #{ownerId}
     </select>
 
     <select id="selectByBookRequesterId" resultType="com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord">
-        SELECT * FROM drifting_request WHERE book_id = #{bookId} AND requester_id = #{requesterId}
+        SELECT *
+        FROM drifting_request
+        WHERE book_id = #{bookId}
+          AND requester_id = #{requesterId}
     </select>
 
     <select id="selectDriftingRequestById" resultType="com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord">
-        SELECT * FROM drifting_request WHERE id = #{id}
+        SELECT *
+        FROM drifting_request
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByBookOwnerId" resultType="com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord">
+        SELECT *
+        FROM drifting_request
+        WHERE book_id = #{bookId}
+          AND owner_id = #{ownerId}
+    </select>
+    <select id="selectByBookUploaderId" resultType="com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord">
+        SELECT *
+        FROM drifting_request
+        WHERE book_id = #{bookId}
+          AND uploader_id = #{uploaderId}
     </select>
 </mapper>
