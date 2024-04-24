@@ -31,5 +31,5 @@ public interface BookService {
 
     List<Book> searchByIsbn(@Param("isbn") String isbn);
 
-    List<Book> search(@Param("title") String title, @Param("author") String author, @Param("exact") boolean exact);
+    List<Book> search(@Param("title") String title, @Param("author") String author, @Param("exact") boolean exact, @Param("userId") Long userId);
 }

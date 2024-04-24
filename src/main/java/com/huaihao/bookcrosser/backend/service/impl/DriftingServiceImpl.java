@@ -64,22 +64,27 @@ public class DriftingServiceImpl implements DriftingService {
     public Result drift(Long requestId, Long ownerId) {
         DriftingRecord driftingRecord = driftingMapper.selectDriftingRequestById(requestId);
         Book book = bookMapper.selectById(driftingRecord.getBookId());
-        book.setOwnerId(driftingRecord.getRequesterId());
+
+        Long newOwnerId = driftingRecord.getRequesterId();
+        book.setOwnerId(newOwnerId);
         book.setUpdatedAt(LocalDateTime.now());
         if (!bookMapper.update(book)) {
             return Result.failed(500, "服务器错误");
         }
 
-        driftingRecord.setStatus(RequestStatus.DRIFTING.getStatusString());
-        driftingRecord.setOwnerId(driftingRecord.getRequesterId());
-        driftingRecord.setUpdatedAt(LocalDateTime.now().toString());
-
         // 更新 / 删除？
-        if (driftingMapper.deleteById(requestId)) {
-            return Result.success("起漂成功");
+        if (!driftingMapper.deleteById(requestId)) {
+            return Result.failed(500, "服务器错误");
         }
 
-        return Result.failed(500, "服务器错误");
+
+        List<DriftingRecord> remainingRecords = driftingMapper.selectByBookId(book.getId());
+        remainingRecords.forEach(record -> {
+            record.setOwnerId(newOwnerId);
+            driftingMapper.update(record);
+        });
+
+        return Result.success("起漂成功");
 
     }
 

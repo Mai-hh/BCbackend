@@ -105,8 +105,9 @@ public class BookController {
     public List<Book> search(
             @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "author", required = false) String author,
-            @RequestParam(value = "exact", defaultValue = "false") boolean exact
+            @RequestParam(value = "exact", defaultValue = "false") boolean exact,
+            @RequestAttribute("userId") Long searcherId
     ) {
-        return bookService.search(title, author, exact);
+        return bookService.search(title, author, exact, searcherId);
     }
 }

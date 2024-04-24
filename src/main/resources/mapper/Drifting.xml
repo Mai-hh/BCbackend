@@ -67,4 +67,10 @@
         WHERE book_id = #{bookId}
           AND uploader_id = #{uploaderId}
     </select>
+
+    <select id="selectByBookId" resultType="com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord">
+        SELECT *
+        FROM drifting_request
+        WHERE book_id = #{bookId}
+    </select>
 </mapper>

@@ -132,13 +132,12 @@ public class UserServiceImpl implements UserService {
                     continue;
                 }
                 Long bookId = request.getBookId();
-                booksInRequesting.add(bookMapper.selectById(bookId));
+                Book book = bookMapper.selectById(bookId);
+                book.setOwnerUsername(userMapper.selectById(book.getOwnerId()).getUsername());
+                booksInRequesting.add(book);
             }
 
             List<Book> booksBorrowed = bookMapper.loadBooksByOwnerId(user.getId());
-            booksBorrowed.forEach(book -> {
-                book.setOwnerUsername(userMapper.selectById(book.getOwnerId()).getUsername());
-            });
 
             UserProfile userProfile = new UserProfile();
             userProfile.setId(user.getId());

@@ -31,6 +31,7 @@ public interface DriftingMapper {
     DriftingRecord selectByBookRequesterId(@Param("bookId") Long bookId, @Param("requesterId") Long requesterId);
 
     List<DriftingRecord> selectByBookOwnerId(@Param("bookId") Long bookId, @Param("ownerId") Long ownerId);
+    List<DriftingRecord> selectByBookId(@Param("bookId") Long bookId);
 
     List<DriftingRecord> selectByBookUploaderId(@Param("bookId") Long bookId, @Param("uploaderId") Long uploaderId);
 

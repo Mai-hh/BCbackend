@@ -1,7 +1,10 @@
 package com.huaihao.bookcrosser.backend.service.impl;
 
 import com.huaihao.bookcrosser.backend.mbg.mapper.BookMapper;
+import com.huaihao.bookcrosser.backend.mbg.mapper.DriftingMapper;
 import com.huaihao.bookcrosser.backend.mbg.model.Book;
+import com.huaihao.bookcrosser.backend.mbg.model.BookStatus;
+import com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord;
 import com.huaihao.bookcrosser.backend.service.BookService;
 import com.huaihao.bookcrosser.backend.service.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,9 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookMapper bookMapper;
+
+    @Autowired
+    private DriftingMapper driftingMapper;
 
     @Override
     public List<Book> selectAll() {
@@ -74,7 +80,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> search(String title, String author, boolean exact) {
-        return bookMapper.search(title, author, exact);
+    public List<Book> search(String title, String author, boolean exact, Long userId) {
+        List<Book> books = bookMapper.search(title, author, exact);
+        List<DriftingRecord> records = driftingMapper.selectByRequesterId(userId);
+        for (Book book : books) {
+            for (DriftingRecord record : records) {
+                if (book.getId().equals(record.getBookId())) {
+                    book.setStatus(BookStatus.REQUESTED.getStatusString());
+                }
+            }
+        }
+
+        return books;
     }
 }
