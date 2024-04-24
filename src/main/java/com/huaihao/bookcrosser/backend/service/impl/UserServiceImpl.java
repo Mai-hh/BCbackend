@@ -7,7 +7,7 @@ import com.huaihao.bookcrosser.backend.mbg.mapper.UserMapper;
 import com.huaihao.bookcrosser.backend.mbg.model.Book;
 import com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord;
 import com.huaihao.bookcrosser.backend.mbg.model.User;
-import com.huaihao.bookcrosser.backend.mbg.model.UserProfile;
+import com.huaihao.bookcrosser.backend.dto.UserProfile;
 import com.huaihao.bookcrosser.backend.service.Result;
 import com.huaihao.bookcrosser.backend.service.UserService;
 import lombok.extern.slf4j.Slf4j;

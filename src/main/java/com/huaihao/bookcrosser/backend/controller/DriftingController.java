@@ -1,5 +1,6 @@
 package com.huaihao.bookcrosser.backend.controller;
 
+import com.huaihao.bookcrosser.backend.dto.DriftingRequest;
 import com.huaihao.bookcrosser.backend.mbg.model.*;
 import com.huaihao.bookcrosser.backend.service.BookService;
 import com.huaihao.bookcrosser.backend.service.DriftingService;

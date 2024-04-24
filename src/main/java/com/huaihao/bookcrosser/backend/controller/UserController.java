@@ -1,7 +1,7 @@
 package com.huaihao.bookcrosser.backend.controller;
 
 import com.huaihao.bookcrosser.backend.mbg.model.User;
-import com.huaihao.bookcrosser.backend.mbg.model.UserProfile;
+import com.huaihao.bookcrosser.backend.dto.UserProfile;
 import com.huaihao.bookcrosser.backend.service.Result;
 import com.huaihao.bookcrosser.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController

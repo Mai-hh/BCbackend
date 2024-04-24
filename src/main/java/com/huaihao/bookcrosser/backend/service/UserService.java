@@ -1,9 +1,8 @@
 package com.huaihao.bookcrosser.backend.service;
 
 import com.huaihao.bookcrosser.backend.mbg.model.User;
-import com.huaihao.bookcrosser.backend.mbg.model.UserProfile;
+import com.huaihao.bookcrosser.backend.dto.UserProfile;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 

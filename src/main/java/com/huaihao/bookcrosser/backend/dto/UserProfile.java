@@ -1,5 +1,7 @@
-package com.huaihao.bookcrosser.backend.mbg.model;
+package com.huaihao.bookcrosser.backend.dto;
 
+
+import com.huaihao.bookcrosser.backend.mbg.model.Book;
 
 import java.util.List;
 

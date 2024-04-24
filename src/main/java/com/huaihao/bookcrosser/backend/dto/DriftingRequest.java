@@ -1,4 +1,7 @@
-package com.huaihao.bookcrosser.backend.mbg.model;
+package com.huaihao.bookcrosser.backend.dto;
+
+import com.huaihao.bookcrosser.backend.mbg.model.Book;
+import com.huaihao.bookcrosser.backend.mbg.model.User;
 
 public class DriftingRequest {
     private Long id;
