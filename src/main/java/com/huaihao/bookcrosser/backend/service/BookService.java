@@ -23,6 +23,8 @@ public interface BookService {
             @Param("updatedAt") LocalDateTime updatedAt
     );
 
+    Result delete(@Param(("id")) Long id, @Param("userId") Long userId);
+
     boolean deleteById(@Param("id") Long id);
 
     List<Book> searchByTitle(@Param("title") String title);

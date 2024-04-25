@@ -81,9 +81,17 @@ public class BookController {
         }
     }
 
-    @DeleteMapping("/deleteById/{id}")
-    public boolean deleteById(@PathVariable("id") Long id) {
-        return bookService.deleteById(id);
+    @DeleteMapping("/delete")
+    public ResponseEntity<Result> deleteById(
+            @RequestParam("bookId") Long bookId,
+            @RequestAttribute("userId") Long userId
+    ) {
+        Result result = bookService.delete(bookId, userId);
+        if (result.isSuccess()) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
     }
 
     @GetMapping("/searchByTitle")
