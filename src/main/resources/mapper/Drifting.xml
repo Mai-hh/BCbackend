@@ -29,6 +29,11 @@
         WHERE book_id = #{bookId}
           AND uploader_id = #{uploaderId}
     </delete>
+    <delete id="deleteByBookId">
+        DELETE
+        FROM drifting_request
+        WHERE book_id = #{bookId}
+    </delete>
 
     <select id="selectByRequesterId" resultType="com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord">
         SELECT *

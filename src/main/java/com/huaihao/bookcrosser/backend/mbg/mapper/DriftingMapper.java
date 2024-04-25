@@ -36,4 +36,6 @@ public interface DriftingMapper {
     List<DriftingRecord> selectByBookUploaderId(@Param("bookId") Long bookId, @Param("uploaderId") Long uploaderId);
 
     boolean deleteByBookUploaderId(@Param("bookId") Long bookId, @Param("uploaderId") Long uploaderId);
+
+    boolean deleteByBookId(@Param("bookId") Long bookId);
 }

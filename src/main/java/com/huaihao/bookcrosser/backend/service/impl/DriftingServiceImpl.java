@@ -3,6 +3,7 @@ package com.huaihao.bookcrosser.backend.service.impl;
 import com.huaihao.bookcrosser.backend.mbg.mapper.BookMapper;
 import com.huaihao.bookcrosser.backend.mbg.mapper.DriftingMapper;
 import com.huaihao.bookcrosser.backend.mbg.model.Book;
+import com.huaihao.bookcrosser.backend.mbg.model.BookStatus;
 import com.huaihao.bookcrosser.backend.mbg.model.DriftingRecord;
 import com.huaihao.bookcrosser.backend.mbg.model.RequestStatus;
 import com.huaihao.bookcrosser.backend.service.DriftingService;
@@ -43,6 +44,7 @@ public class DriftingServiceImpl implements DriftingService {
                     LocalDateTime.now(),
                     LocalDateTime.now()
             );
+            book.setStatus(BookStatus.REQUESTED.getStatusString());
             return Result.success("求漂成功", val);
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,11 +93,17 @@ public class DriftingServiceImpl implements DriftingService {
     // 收漂：删除book相关的driftingRecord, 新增一个driftingRecord的requester为自己，设置状态为finished
     @Override
     public Result finish(Long bookId, Long uploaderId) {
-        boolean deleteComplete = driftingMapper.deleteByBookUploaderId(bookId, uploaderId);
-        if (!deleteComplete) {
-            return Result.failed(500, "服务器错误");
+
+        Book book = bookMapper.selectById(bookId);
+        if (!Objects.equals(book.getUploaderId(), uploaderId)) {
+            return Result.failed(403, "非上传者无权限收漂");
         }
-        System.out.println("delete complete");
+
+        boolean deleteComplete = driftingMapper.deleteByBookId(bookId);
+        if (!deleteComplete) {
+            System.out.println("没有另外的对这本书的请求");
+        }
+
         return request(bookId, uploaderId, RequestStatus.FINISHED);
     }
 
