@@ -26,12 +26,20 @@ public class DriftingServiceImpl implements DriftingService {
     @Override
     public Result request(Long bookId, Long requesterId, RequestStatus status) {
         Book book = bookMapper.selectById(bookId);
+        List<DriftingRecord> driftingRecords = driftingMapper.selectByBookId(bookId);
+
         if (book == null) {
             return Result.failed(404, "请求图书不存在");
         }
 
         if (Objects.equals(book.getOwnerId(), requesterId)) {
             return Result.failed(400, "不能请求拥有的图书");
+        }
+
+        for (DriftingRecord record : driftingRecords) {
+            if (Objects.equals(record.getStatus(), RequestStatus.FINISHED.getStatusString())) {
+                return Result.failed(400, "此书已被收漂");
+            }
         }
 
         try {

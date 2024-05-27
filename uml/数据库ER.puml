@@ -1,0 +1,63 @@
+@startuml
+entity "users" {
+    *id : bigint <<generated>>
+    --
+    *username : varchar(50)
+    *email : varchar(100)
+    *password : varchar(100)
+    avatar : varchar(200)
+    bio : varchar(500)
+    location : varchar(100)
+    *created_at : datetime
+    *updated_at : datetime
+    latitude : double
+    longitude : double
+}
+
+entity "books" {
+    *id : bigint <<generated>>
+    --
+    *title : varchar(100)
+    *author : varchar(100)
+    isbn : varchar(20)
+    *owner_id : bigint
+    *uploader_id : bigint
+    description : text
+    cover_url : varchar(200)
+    longitude : double
+    latitude : double
+    status : varchar(20)
+    *created_at : datetime
+    *updated_at : datetime
+}
+
+entity "book_comments" {
+    *id : bigint <<generated>>
+    --
+    *book_id : bigint
+    *user_id : bigint
+    *content : text
+    *created_at : datetime
+    *updated_at : datetime
+}
+
+entity "drifting_request" {
+    *id : bigint <<generated>>
+    --
+    *book_id : bigint
+    *requester_id : bigint
+    *uploader_id : bigint
+    owner_id : bigint
+    *status : varchar(20)
+    *created_at : datetime
+    *updated_at : datetime
+}
+
+users ||--o{ books : "owns\nuploads"
+users ||--o{ book_comments : "comments"
+users ||--o{ drifting_request : "requests\nuploads\nowns"
+
+books ||--o{ book_comments : "has"
+books ||--o{ drifting_request : "listed in"
+
+@enduml
