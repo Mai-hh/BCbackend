@@ -4,9 +4,9 @@ spring:
   application:
     name: backend
   datasource:
-    username: harri
+    username: outaink
     password: momo0918
-    url: jdbc:mariadb://43.159.141.222:3306/book_crosser?useUnicode=true&characterEncoding=UTF-8&serverTimezone=PST&useSSL=false&useInformationSchema=true
+    url: jdbc:mariadb://191.101.1.100:3306/book_crosser?useUnicode=true&characterEncoding=UTF-8&serverTimezone=EST&useSSL=false&useInformationSchema=true
     driver-class-name: org.mariadb.jdbc.Driver
 
 mybatis:
